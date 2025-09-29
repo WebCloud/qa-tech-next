@@ -32,7 +32,7 @@ export async function fetchWebsiteActions(
     process.env.VERCEL_PROJECT_PRODUCTION_URL || "http://localhost:3000";
 
   try {
-    const endpoint = `${baseURL}/api/website-actions?url=${encodeURIComponent(
+    const endpoint = `https://${baseURL}/api/website-actions?url=${encodeURIComponent(
       urlInput
     )}`;
 
