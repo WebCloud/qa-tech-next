@@ -65,7 +65,10 @@ async function runSandbox(url: string) {
   return JSON.parse(stdout);
 }
 
+export const revalidate = 600;
+
 export async function GET(request: NextRequest) {
+  // @ts-ignore
   let output: Record<string, any> | undefined;
   try {
     const reqURL = new URL(request.url);
