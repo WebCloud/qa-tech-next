@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { LinkIcon, Loader2Icon } from "lucide-react";
 import { ActionItem } from "./action-item";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const SkeletonActions = () => {
   return Array.from({ length: 6 }).map((_, i) => (
@@ -42,53 +43,68 @@ export function WebsiteActions() {
 
   return (
     <div className="space-y-6">
-      <form action={formAction} className="flex items-end gap-2">
-        <div className="flex-1">
-          <label htmlFor="url" className="block text-sm font-medium mb-2">
-            URL
-          </label>
-          <Input
-            id="url"
-            name="url"
-            type="url"
-            defaultValue={state.url}
-            placeholder="https://example.com/page"
-            disabled={pending}
-            autoFocus
-            required
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          />
-        </div>
-        <Button type="submit" disabled={pending}>
-          {pending ? (
-            <Loader2Icon className="h-4 w-4 animate-spin" />
-          ) : (
-            "Analyze"
+      <div className="flex flex-row gap-4">
+        <div
+          className={cn(
+            "w-full flex flex-col gap-4 h-fit",
+            state.url && state.url !== "" ? "max-w-1/2" : ""
           )}
-        </Button>
-      </form>
-
-      {state.error ? (
-        <div className="text-sm text-destructive">{state.error}</div>
-      ) : null}
-      {!pending && !items.length ? (
-        <div className="text-sm text-muted-foreground bg-muted p-2 rounded-md flex items-center gap-2">
-          <LinkIcon className="h-4 w-4" /> Enter a URL and click Analyze
-        </div>
-      ) : (
-        <div className="space-y-3 grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-40">
-          {pending ? (
-            <SkeletonActions />
-          ) : items.length ? (
-            items.map((item, index) => (
-              <ActionItem
-                key={`${item.element_aria_label}-${index}`}
-                item={item}
+        >
+          <form action={formAction} className="flex items-end gap-2">
+            <div className="flex-1">
+              <label htmlFor="url" className="block text-sm font-medium mb-2">
+                URL
+              </label>
+              <Input
+                id="url"
+                name="url"
+                type="url"
+                defaultValue={state.url}
+                placeholder="https://example.com/page"
+                disabled={pending}
+                autoFocus
+                required
+                className="w-full rounded-md border bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
-            ))
+            </div>
+            <Button type="submit" disabled={pending}>
+              {pending ? (
+                <Loader2Icon className="h-4 w-4 animate-spin" />
+              ) : (
+                "Analyze"
+              )}
+            </Button>
+          </form>
+
+          {state.error ? (
+            <div className="text-sm text-destructive">{state.error}</div>
           ) : null}
+          {!pending && !items.length ? (
+            <div className="text-sm text-muted-foreground bg-muted p-2 rounded-md flex items-center gap-2">
+              <LinkIcon className="h-4 w-4" /> Enter a URL and click Analyze
+            </div>
+          ) : (
+            <div className="space-y-3 grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-40">
+              {pending ? (
+                <SkeletonActions />
+              ) : items.length ? (
+                items.map((item, index) => (
+                  <ActionItem
+                    key={`${item.element_aria_label}-${index}`}
+                    item={item}
+                  />
+                ))
+              ) : null}
+            </div>
+          )}
         </div>
-      )}
+        {state.url && state.url !== "" && (
+          <iframe
+            src={state.url}
+            className="bg-secondary rounded-md p-4 w-full h-auto"
+          />
+        )}
+      </div>
     </div>
   );
 }
