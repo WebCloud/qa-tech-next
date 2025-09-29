@@ -2,7 +2,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import ms from "ms";
 import { Sandbox } from "@vercel/sandbox";
 
+const memoryCache = new Map<string, any>();
+
 async function runSandbox(url: string) {
+  if (memoryCache.has(url)) {
+    return memoryCache.get(url);
+  }
+
   const sandbox = await Sandbox.create({
     source: {
       url: "https://github.com/WebCloud/qatech_stagehand.git",
@@ -62,7 +68,10 @@ async function runSandbox(url: string) {
 
   const stdout = await output.output("stdout");
 
-  return JSON.parse(stdout);
+  const parsedOutput = JSON.parse(stdout);
+  memoryCache.set(url, parsedOutput);
+
+  return parsedOutput;
 }
 
 export const revalidate = 600;
