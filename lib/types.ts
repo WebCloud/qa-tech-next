@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+export const actionTypeSchema = z
+  .enum(["interaction", "navigation"])
+  .describe(
+    "The type of action that can be performed on this element (e.g., interaction, navigation)"
+  );
+
+export type ActionType = z.infer<typeof actionTypeSchema>;
+
 export const outputSchema = z.object({
   interactive_elements: z.array(
     z.object({
@@ -28,11 +36,7 @@ export const outputSchema = z.object({
         .describe(
           "Analysis of what changes occur when this element is interacted with"
         ),
-      action_type: z
-        .enum(["interaction", "navigation"])
-        .describe(
-          "The type of action that can be performed on this element (e.g., interaction, navigation)"
-        ),
+      action_type: actionTypeSchema,
       element_aria_label: z
         .string()
         .describe(
