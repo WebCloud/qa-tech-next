@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import ms from "ms";
 import { Sandbox } from "@vercel/sandbox";
 
-const memoryCache = new Map<string, any>();
+const memoryCache = new Map<string, Record<string, unknown>>();
 
 async function runSandbox(url: string) {
   if (memoryCache.has(url)) {
