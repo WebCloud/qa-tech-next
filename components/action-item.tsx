@@ -7,6 +7,7 @@ import {
 import { PopoverArrow } from "@radix-ui/react-popover";
 import { ActionIcon } from "@/components/action-icon";
 import type { WebsiteActionsData } from "@/app/actions";
+import { Button } from "./ui/button";
 
 export function ActionItem({
   item,
@@ -67,6 +68,9 @@ export function ActionItem({
                 {item.change_analysis}
               </p>
             </div>
+            <Button variant="outline" className="w-full mt-4">
+              Execute action
+            </Button>
           </div>
         </div>
       </PopoverContent>
