@@ -68,7 +68,7 @@ export function ActionItem({
                 {item.change_analysis}
               </p>
             </div>
-            <Button variant="outline" className="w-full mt-4">
+            <Button variant="outline" className="w-full mt-4" disabled>
               Execute action
             </Button>
           </div>
